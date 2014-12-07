@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <title>twitter</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script>
+  $(function() {
+
+    var socket = io.connect();
+
+    $('form').submit(function() {
+      socket.emit('msg', $('input').val());
+      return false;
+    });
+
+    socket.on('data', function(data) {
+      console.log(data);
+      $('div').prepend('<img src="' + data.user['profile_image_url'] + '"> ' + data.user['name'] + '</br>' + data.text + '</br>' + data.source + '</br>'　);
+      // $('div').prepend('<a href="http://twitter.com/'+ data.user['screen_name'] +'">'+'<img src="' + data.user['profile_image_url'] + '" target="_blank">' + '</a>');
+    });
+    $('#stop').click(function(){
+      socket.emit('stop', $('input').val());
+      return false;
+    })
+
+
+  });
+  </script>
+</head>
+<body>
+  <form method="post">
+    <input type="text" name="keyword"/>
+    <input type="submit" value="search"/>
+    <input type="button" id="stop" value="stop">
+  </form>
+
+  <div></div>
+</body>
+</html>
