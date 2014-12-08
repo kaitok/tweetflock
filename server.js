@@ -16,7 +16,7 @@ io.sockets.on('connection', function(socket) {
   socket.on('msg', function(data) {
     var keyword = data;
     var option = {'track': keyword, 'language': 'ja', 'include_entities': 'true'};
-    console.log(keyword+'を含むツイートを取得します。');
+    console.log(keyword+'を含むツイートを取得しま〜す♪');
     twit.stream('statuses/filter', option, function(stream) {
       stream.on('data', function (data) {
         io.sockets.emit('data', data);
