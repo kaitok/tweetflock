@@ -53,7 +53,8 @@ function initialize() {
 function setMapping(latitude,longitude) {
   var myLatlng = new google.maps.LatLng(latitude,longitude);//経度,緯度
   var marker = new google.maps.Marker({
-    position:myLatlng
+    position:myLatlng,
+    animation:google.maps.Animation.DROP
   });
   marker.setMap(map);
 }
