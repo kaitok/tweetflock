@@ -17,12 +17,10 @@
     socket.on('data', function(data) {
       console.log(data);
       if(data.geo !== null && data.geo['coordinates'] != null){
-        $('#tweet').prepend('<a href="http://twitter.com/'+ data.user['screen_name'] + '" target="_blank">' + '<img src="' + data.user['profile_image_url'] + '" target="_blank">' + '</a>' + data.user['name'] + '</br>' + data.text + '</br>' + data.source + '</br>' + 'geo:' + data.geo['coordinates'] + '</br>');
-
         var geo = data.geo['coordinates'];
         var latitude = geo[0];//緯度
         var longitude = geo[1];//経度
-        setMapping(latitude,longitude);
+        setMapping(latitude,longitude,data);
       }
 
       // $('div').prepend('<a href="http://twitter.com/'+ data.user['screen_name'] +'">'+'<img src="' + data.user['profile_image_url'] + '" target="_blank">' + '</a>');
@@ -38,7 +36,7 @@ var map;
 function initialize() {
   var myLatlng = new google.maps.LatLng('35.6582', '139.7456');
   var myOptions = {
-    zoom: 1,
+    zoom: 2,
     center: myLatlng,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   }
@@ -50,12 +48,22 @@ function initialize() {
     map.setMapTypeId('tweetflock');
 }
 
-function setMapping(latitude,longitude) {
+function setMapping(latitude,longitude,data) {
   var myLatlng = new google.maps.LatLng(latitude,longitude);//経度,緯度
   var marker = new google.maps.Marker({
     position:myLatlng,
     animation:google.maps.Animation.DROP
   });
+
+  var contentTweet = '<a href="http://twitter.com/'+ data.user['screen_name'] + '" target="_blank">' + '<img src="' + data.user['profile_image_url'] + '" target="_blank">' + '</a>' + data.user['name'] + '</br>' + data.text + '</br>' + data.source + '</br>' + 'geo:' + data.geo['coordinates'] + '</br>';
+
+  var infowindow = new google.maps.InfoWindow({
+      content: contentTweet
+  });
+  google.maps.event.addListener(marker, 'click', function() {
+    infowindow.open(map,marker);
+  });
+
   marker.setMap(map);
 }
 
@@ -68,7 +76,7 @@ html, body {
 }
 
 #map_canvas {
-  height: 400px;
+  height: 100%;
   width: 100%;
 }
 </style>
