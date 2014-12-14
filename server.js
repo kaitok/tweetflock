@@ -9,23 +9,33 @@ var app = require('http').createServer(function(req, res) {
 
 
 var io = require('socket.io').listen(app);
+streamFlg = true;
 
 io.sockets.on('connection', function(socket) {
-
+  var stream;
+  
   socket.on('msg', function(data) {
+    streamFlg = true;
     var keyword = data;
-    //var option = {'track': keyword, 'language': 'ja', 'include_entities': 'true'};
     var option = {'track': keyword, 'include_entities': 'true'};
-    console.log(keyword+'を含むツイートを取得します。');
-    twit.stream('statuses/filter', option, function(stream) {
+    //var option = {'track': keyword, 'language': 'ja', 'include_entities': 'true'};
+    
+    console.log(keyword + 'を含むツイートを取得します。');
+    
+    var stream = function(stream) {
+      console.log("streamFlg="+streamFlg);
       stream.on('data', function (data) {
-        io.sockets.emit('data', data);
-        console.log(data);
+        if (streamFlg) {
+          io.sockets.emit('data', data);
+          console.log(data);
+        }
       });
-    });
+    };
+    twit.stream('statuses/filter', option, stream);
   });
+
   socket.on('stop', function(data) {
-    io.app.end();
+    streamFlg = false;
   });
 
 });
