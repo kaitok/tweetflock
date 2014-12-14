@@ -4,7 +4,7 @@
   "description": "node.js + socket.io + Twitter Streaming API",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js && open index.html"
+    "start": "node server.js"
   },
   "author": "",
   "license": "ISC",
