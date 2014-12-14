@@ -1,0 +1,19 @@
+{
+  "name": "tweetflock",
+  "version": "0.0.1",
+  "description": "node.js + socket.io + Twitter Streaming API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kaitok/tweetflock"
+  },
+  "dependencies": {
+    "socket.io": "^1.2.1",
+    "twitter": "^1.0.1"
+  }
+}
