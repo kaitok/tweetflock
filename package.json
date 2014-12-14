@@ -4,17 +4,16 @@
   "description": "node.js + socket.io + Twitter Streaming API",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/notsunohito/tweetflock"
+    "start": "node server.js && open index.html"
   },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/notsunohito/tweetflock/issues"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kaitok/tweetflock"
   },
-  "homepage": "https://github.com/notsunohito/tweetflock"
+  "dependencies": {
+    "socket.io": "^1.2.1",
+    "twitter": "^1.0.1"
+  }
 }
