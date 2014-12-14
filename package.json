@@ -1,0 +1,20 @@
+{
+  "name": "tweetflock",
+  "version": "0.0.1",
+  "description": "node.js + socket.io + Twitter Streaming API",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/notsunohito/tweetflock"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/notsunohito/tweetflock/issues"
+  },
+  "homepage": "https://github.com/notsunohito/tweetflock"
+}
