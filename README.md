@@ -3,6 +3,8 @@ tweetflock
 
 node.js + socket.io + Twitter Streaming API
 
-npm install socket.io
+Demo : http://tweetflock.herokuapp.com/
+
+npm install
 
 node server
