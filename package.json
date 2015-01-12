@@ -16,6 +16,8 @@
     "twitter-bootstrap-3.0.0": "*",
     "socket.io": "~1.2.1",
     "twitter": "~1.0.1",
-    "jade": "~1.8.2"
+    "jade": "~1.8.2",
+    "node-inspector": "0.8.1",
+    "transformers": "*"
   }
 }

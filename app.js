@@ -6,10 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var less = require('less-middleware');
 var bootstrapPath = path.join(__dirname, 'node_modules', 'twitter-bootstrap-3.0.0');
-
 var routes = require('./routes/index');
 var users = require('./routes/users');
-
 var app = express();
 
 // view engine setup
@@ -100,21 +98,21 @@ io.sockets.on('connection', function(socket) {
     var keyword = data;
     var image_url = "";
     //var option = {'track': keyword, 'include_entities': 'true'};
-    var option = {'track': keyword, 'include_entities': 'true'};
-    if(keyword !== ''){
-      
-      console.log(keyword + 'を含むツイートを取得します。');
-
-      var stream = function(stream) {
-        stream.on('data', function (data) {
-          if (streamFlg) {
-            io.sockets.emit('data', data,image_url);
-            console.log(data);
-          }
-        });
-      };
-      twit.stream('statuses/filter', option, stream);
+    var option = {'track': keyword};
+    if(!keyword){
+      return; 
     }
+    console.log(keyword + 'を含むツイートを取得します。');
+    var stream = function(stream) {
+      stream.on('data', function (data) {
+        if (streamFlg) {
+          io.sockets.emit('data', data,image_url);
+          console.log(data);
+        }
+      });
+    };
+    twit.stream('statuses/filter', option, stream);
+    
   });
 
   socket.on('stop', function(data) {
