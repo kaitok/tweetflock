@@ -20,16 +20,17 @@
     navigator.geolocation.getCurrentPosition(setGeolocation,errorCallback);
 
     function setGeolocation(pos){
-      createMap(pos.coords.latitude,pos.coords.longitude);
+      createMap(pos.coords.latitude,pos.coords.longitude,5);
     }
 
     function errorCallback(err){
-    }
+     createMap('24.37','160.76',2); 
+   }
 
-    function createMap(latitude,longitude){
+   function createMap(latitude,longitude,zoom){
      var myLatlng = new google.maps.LatLng(latitude, longitude);
      var myOptions = {
-      zoom: 5,
+      zoom: zoom,
       center: myLatlng,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
