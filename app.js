@@ -97,7 +97,6 @@ io.sockets.on('connection', function(socket) {
     streamFlg = true;
     var keyword = data;
     var image_url = "";
-    //var option = {'track': keyword, 'include_entities': 'true'};
     var option = {'track': keyword};
     if(!keyword){
       return; 
