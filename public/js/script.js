@@ -8,8 +8,7 @@
     });
 
     socket.on('data', function(data,image_url) {
-      console.log(data);
-      if(data.geo !== null && data.geo['coordinates'] != null){
+      if(data.geo !== null && data.geo['coordinates'] !== null){
         var geo = data.geo['coordinates'];
         var latitude = geo[0];//緯度
         var longitude = geo[1];//経度
