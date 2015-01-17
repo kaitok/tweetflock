@@ -8,7 +8,7 @@
     });
 
     socket.on('data', function(data,image_url) {
-      if(data.geo !== null && data.geo['coordinates'] !== null){
+      if(data !== null && data.geo != undefined && data.geo['coordinates'] !== null){
         var geo = data.geo['coordinates'];
         var latitude = geo[0];//緯度
         var longitude = geo[1];//経度
@@ -54,13 +54,15 @@
       animation:google.maps.Animation.DROP
     });
 
-    var contentTweet = '<div style="width:auto;height:150px;" class="map_text"><dl><dt><a href="http://twitter.com/'
+    var contentTweet = '<div class="tweet_window"><dl><dt><a href="http://twitter.com/'
     + data.user['screen_name'] 
     + '" target="_blank"><img src="' 
     + data.user['profile_image_url']
     + '" target="_blank"></a></dt><dt>' 
     + data.text 
-    + '</dt></dl></div>';
+    + '</dt><dt>' 
+    + data.user['url'] 
+    + '</dl></div>';
 
     var infowindow = new google.maps.InfoWindow({
       content: contentTweet,

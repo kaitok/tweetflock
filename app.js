@@ -95,21 +95,29 @@ io.sockets.on('connection', function(socket) {
     var keyword = data;
     var image_url = "";
     var option = {'track': keyword};
+
     if(!keyword){
-      return; 
-    }
+     console.log('Search all key word');
+   }else{
     console.log(keyword + 'を含むツイートを取得します。');
-    var stream = function(stream) {
-      stream.on('data', function (data) {
-        if (streamFlg) {
-          io.sockets.emit('data', data,image_url);
-          console.log(data);
-        }
-      });
-    };
-    twit.stream('statuses/filter', option, stream);
-    
-  });
+  }
+
+
+
+  var stream = function(stream) {
+    stream.on('data', function (data) {
+      if (streamFlg) {
+        io.sockets.emit('data', data,image_url);
+        console.log(data);
+      }
+    });
+  };
+  if(!keyword){
+   twit.stream('statuses/sample', stream);
+ }else{
+  twit.stream('statuses/filter', option, stream);
+}
+});
 
   socket.on('stop', function(data) {
     streamFlg = false;
