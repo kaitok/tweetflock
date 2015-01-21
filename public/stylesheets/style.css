@@ -1,19 +1,18 @@
 body {
-  padding-top: 20px;
-  font: 14px;
-  font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    padding-top: 20px;
+    font: 14px;
+    font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-
 a {
-  color: #00B7FF;
+    color: #00B7FF;
 }
 #map_canvas {
-  height: 100%;
-  width: 100%;
+    height: 100%;
 }
-
+#tweet_box {
+    height: 100%;
+    color: #FFFFFF;
+    overflow: scroll;
+}
 .tweet_window{
-  width:auto;
-  height:100px;
-  color: black;
 }

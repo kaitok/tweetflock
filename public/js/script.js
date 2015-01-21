@@ -60,9 +60,9 @@
     + data.user['profile_image_url']
     + '" target="_blank"></a></dt><dt>' 
     + data.text 
-    + '</dt><dt>' 
-    + data.user['url'] 
-    + '</dl></div>';
+    + '</dt></div>';
+
+    $('#tweet_box').append(contentTweet);
 
     var infowindow = new google.maps.InfoWindow({
       content: contentTweet,
