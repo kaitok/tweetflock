@@ -23,7 +23,7 @@
     }
 
     function errorCallback(err){
-     createMap('24.37','160.76',2); 
+     createMap('24.37','160.76',2);
    }
 
    function createMap(latitude,longitude,zoom){
@@ -34,7 +34,7 @@
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     var canvas = $('#map_canvas')[0];
-    map = new google.maps.Map(canvas, myOptions); 
+    map = new google.maps.Map(canvas, myOptions);
   }
 
     //var styleOptions = [{"featureType":"all","elementType":"labels.text.fill","stylers":[{"color":"#ffffff"},{"weight":"0.20"},{"lightness":"28"},{"saturation":"23"},{"visibility":"off"}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"color":"#494949"},{"lightness":13},{"visibility":"off"}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#144b53"},{"lightness":14},{"weight":1.4}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#08304b"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#0c4152"},{"lightness":5}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#0b434f"},{"lightness":25}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#000000"}]},{"featureType":"road.arterial","elementType":"geometry.stroke","stylers":[{"color":"#0b3d51"},{"lightness":16}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"}]},{"featureType":"transit","elementType":"all","stylers":[{"color":"#146474"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#021019"}]}];
@@ -55,11 +55,11 @@
     });
 
     var contentTweet = '<div class="tweet_window"><dl><dt><a href="http://twitter.com/'
-    + data.user['screen_name'] 
-    + '" target="_blank"><img src="' 
+    + data.user['screen_name']
+    + '" target="_blank"><img src="'
     + data.user['profile_image_url']
-    + '" target="_blank"></a></dt><dt>' 
-    + data.text 
+    + '" target="_blank"></a></dt><dt>'
+    + data.text
     + '</dt></div>';
 
     $('#tweet_box').append(contentTweet);
@@ -70,9 +70,12 @@
     });
 
     google.maps.event.addListener(marker, 'click', function() {
+
       if (isInfoWindowOpen(infowindow)){
         infowindow.close(map,marker);
       }else{
+        map.setZoom(8);
+        map.setCenter(marker.getPosition());
         infowindow.open(map,marker);
       }
     });
