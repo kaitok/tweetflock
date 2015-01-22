@@ -54,9 +54,15 @@
           animation: google.maps.Animation.DROP
       });
 
-      var contentTweet = '<div class="tweet_window"><dl><dt><a href="http://twitter.com/' + data.user['screen_name'] + '" target="_blank"><img src="' + data.user['profile_image_url'] + '" target="_blank"></a></dt><dt>' + data.text + '</dt></div>';
+      var contentTweet = '<div class="tweet_window alert"><a href="http://twitter.com/' 
+                       + data.user['screen_name'] 
+                       + '" target="_blank"><img src="' 
+                       + data.user['profile_image_url'] 
+                       + '" target="_blank"></a>' 
+                       + data.text 
+                       + '</div>';
 
-      $('#tweet_box').append(contentTweet);
+      $('#tweet_box').prepend(contentTweet);
 
       var infowindow = new google.maps.InfoWindow({
           content: contentTweet,
@@ -68,8 +74,8 @@
           if (isInfoWindowOpen(infowindow)) {
               infowindow.close(map, marker);
           } else {
-              if (map.zoom <= 8) {
-                  map.setZoom(8);
+              if (map.zoom <= 10) {
+                  map.setZoom(10);
                   map.setCenter(marker.getPosition());
               }
               infowindow.open(map, marker);
