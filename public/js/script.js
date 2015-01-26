@@ -31,7 +31,20 @@
           var myOptions = {
               zoom: zoom,
               center: myLatlng,
-              mapTypeId: google.maps.MapTypeId.ROADMAP
+              zoomControl: false,
+              streetViewControlOptions: {
+                  position: google.maps.ControlPosition.LEFT_BOTTOM
+              },
+              scaleControl: true,
+              mapTypeControl: true,
+              mapTypeControlOptions: {
+                  style: google.maps.MapTypeControlStyle.DEFAULT,
+                  mapTypeIds: [
+                      google.maps.MapTypeId.ROADMAP,
+                      google.maps.MapTypeId.SATELLITE,
+                  ],
+                  position: google.maps.ControlPosition.BOTTOM_LEFT
+              }
           };
           var canvas = $('#map_canvas')[0];
           map = new google.maps.Map(canvas, myOptions);
@@ -56,11 +69,12 @@
 
       marker.setMap(map);
 
-      var contentTweet = {}
-      contentTweet.body = '<div class="media tweet_window" onclick="show(this)"><div class="media-left  media-middle"><a href="http://twitter.com/' + data.user['screen_name'] + '" target="_blank"><img class="media-object" src="' + data.user['profile_image_url'] + '" target="_blank"></a></div><div class="media-body"><p class="media-heading">' + data.text + '</p></div></div>';
+      var contentTweet = {};
+      contentTweet.body = '<div class="media tweet_window"><div class="media-left  media-middle"><a href="http://twitter.com/' + data.user['screen_name'] + '" target="_blank"><img class="media-object" src="' + data.user['profile_image_url'] + '" target="_blank"></a></div><div class="media-body"><p class="media-heading">' + data.text + '</p></div></div>';
       contentTweet.marker = marker;
 
       $('#tweet_box').prepend(contentTweet.body);
+      $('#tweet_box').prepend(contentTweet.marker);
 
       var infowindow = new google.maps.InfoWindow({
           content: contentTweet.body,
@@ -80,6 +94,11 @@
           }
       });
 
+      var tweetWindow = $(".tweet_window");
+      google.maps.event.addDomListener(tweetWindow, "click", function() {
+          google.maps.event.trigger(marker, "click");
+      });
+
       function isInfoWindowOpen(infoWindow) {
           var map = infoWindow.getMap();
           return (map !== null && typeof map !== "undefined");
@@ -89,7 +108,7 @@
   function show(obj) {
       if (map.zoom <= 10) {
           map.setZoom(10);
-          map.setCenter(obj.marker.getPosition());
+          map.setCenter(this.marker.getPosition());
       }
       infowindow.open(map, marker);
   }
