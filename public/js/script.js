@@ -94,6 +94,12 @@
           }
       });
 
+      // prependしてるので $('.tweet_window')の先頭 [0] がmarkerに紐づくdiv.tweet_window
+      //その div.tweet_window の onclickにmarkerのクリックイベントを発火する関数をセット
+      $('.tweet_window')[0].onclick =  function () {
+          google.maps.event.trigger(marker, 'click');
+      };
+
       var tweetWindow = $(".tweet_window");
       google.maps.event.addDomListener(tweetWindow, "click", function() {
           google.maps.event.trigger(marker, "click");
