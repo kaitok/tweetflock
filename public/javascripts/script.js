@@ -18,15 +18,12 @@
       });
 
       //位置情報の取得
-      navigator.geolocation.getCurrentPosition(setGeolocation, errorCallback);
-
-      function setGeolocation(pos) {
+      navigator.geolocation.getCurrentPosition(function(pos) {
           createMap(pos.coords.latitude, pos.coords.longitude, 5);
-      }
-
-      function errorCallback(err) {
+      }, function(err) {
           createMap('24.37', '160.76', 2);
-      }
+      });
+
 
       //mapの設定
       function createMap(latitude, longitude, zoom) {
@@ -53,12 +50,6 @@
           map = new google.maps.Map(canvas, myOptions);
       }
 
-      //var styleOptions = [{"featureType":"all","elementType":"labels.text.fill","stylers":[{"color":"#ffffff"},{"weight":"0.20"},{"lightness":"28"},{"saturation":"23"},{"visibility":"off"}]},{"featureType":"all","elementType":"labels.text.stroke","stylers":[{"color":"#494949"},{"lightness":13},{"visibility":"off"}]},{"featureType":"all","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"administrative","elementType":"geometry.fill","stylers":[{"color":"#000000"}]},{"featureType":"administrative","elementType":"geometry.stroke","stylers":[{"color":"#144b53"},{"lightness":14},{"weight":1.4}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#08304b"}]},{"featureType":"poi","elementType":"geometry","stylers":[{"color":"#0c4152"},{"lightness":5}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#000000"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#0b434f"},{"lightness":25}]},{"featureType":"road.arterial","elementType":"geometry.fill","stylers":[{"color":"#000000"}]},{"featureType":"road.arterial","elementType":"geometry.stroke","stylers":[{"color":"#0b3d51"},{"lightness":16}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#000000"}]},{"featureType":"transit","elementType":"all","stylers":[{"color":"#146474"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#021019"}]}];
-      //var styledMapOptions = { name: 'tweetflock' }
-      //var sampleType = new google.maps.StyledMapType(styleOptions, styledMapOptions);
-      //map.mapTypes.set('tweetflock', sampleType);
-      //map.setMapTypeId('tweetflock');
-
   });
 
   var map;
@@ -78,21 +69,15 @@
 
       $('#tweet_box').prepend(contentTweet.body);
 
-      var infowindow = new google.maps.InfoWindow({
-          content: contentTweet.body,
-          disableAutoPan: false
+      $('.tweet_window').click(function() {
+          google.maps.event.trigger(marker, 'click');
       });
 
       google.maps.event.addListener(marker, 'click', function() {
-
           if (map.zoom <= 18) {
               map.setZoom(18);
               map.setCenter(marker.getPosition());
           }
-
       });
 
-      $('.tweet_window')[0].onclick = function() {
-          google.maps.event.trigger(marker, 'click');
-      };
   }
