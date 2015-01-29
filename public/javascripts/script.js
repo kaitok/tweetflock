@@ -8,12 +8,12 @@
       });
 
       //request取得
-      socket.on('data', function(data, image_url) {
+      socket.on('data', function(data) {
           if (data !== null && data.geo != undefined && data.geo['coordinates'] !== null) {
               var geo = data.geo['coordinates'];
               var latitude = geo[0]; //緯度
               var longitude = geo[1]; //経度
-              setMapping(latitude, longitude, data, image_url);
+              setMapping(latitude, longitude, data);
           }
       });
 
@@ -63,7 +63,7 @@
 
   var map;
 
-  function setMapping(latitude, longitude, data, image_url) {
+  function setMapping(latitude, longitude, data) {
 
       var myLatlng = new google.maps.LatLng(latitude, longitude); //経度,緯度
       var marker = new google.maps.Marker({

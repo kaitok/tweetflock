@@ -53,7 +53,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
-// less setting 
+// less setting
 app.use(less(path.join(__dirname, 'assets', 'less'),
  { dest: path.join(__dirname, 'public'),
  preprocess: {
@@ -85,13 +85,11 @@ var twitter = require('twitter');
 var twit = new twitter(require('./init.config').getKeys());
 var fs = require('fs');
 var io = require('socket.io').listen(server);
-streamFlg = true;
 
 io.sockets.on('connection', function(socket) {
   var stream;
-  
+
   socket.on('msg', function(data) {
-    streamFlg = true;
     var keyword = data;
     var image_url = "";
     var option = {'track': keyword};
@@ -102,26 +100,20 @@ io.sockets.on('connection', function(socket) {
     console.log(keyword + 'を含むツイートを取得します。');
   }
 
-
-
   var stream = function(stream) {
     stream.on('data', function (data) {
-      if (streamFlg) {
-        io.sockets.emit('data', data,image_url);
-        console.log(data);
-      }
+      io.sockets.emit('data', data);
+      console.log(data);
     });
   };
+
   if(!keyword){
    twit.stream('statuses/sample', stream);
- }else{
-  twit.stream('statuses/filter', option, stream);
-}
-});
+  }else{
+   twit.stream('statuses/filter', option, stream);
+  }
 
-  socket.on('stop', function(data) {
-    streamFlg = false;
-  });
+});
 
 });
 
