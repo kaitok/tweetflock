@@ -36,3 +36,6 @@ a {
     font-size:12px;
     font-family: sans-serif,'arial';
 }
+#tweet_box .media-object{
+   display: inline;
+}

@@ -87,16 +87,18 @@ var twitter = require('twitter');
 var twit = new twitter(require('./init.config').getKeys());
 var fs = require('fs');
 var io = require('socket.io').listen(server);
+var flg = false;
 
 io.sockets.on('connection', function(socket) {
 
     var stream;
-    var flg = false;
 
     socket.on('msg', function(data) {
-      if(flg){
-        return;
-      }
+
+        if(flg){
+            flg = false;
+            return;
+        }
         var keyword = data;
         var image_url = "";
         var option = {
@@ -111,8 +113,10 @@ io.sockets.on('connection', function(socket) {
 
         var stream = function(stream) {
             stream.on('data', function(data) {
-                io.sockets.emit('data', data);
                 console.log(data);
+                if (flg) return;
+                io.sockets.emit('data', data, flg);
+
             });
         };
 
@@ -121,10 +125,12 @@ io.sockets.on('connection', function(socket) {
         } else {
             twit.stream('statuses/filter', option, stream);
         }
+
+        flg = false;
     });
 
-    socket.on('stop', function(){
-      this.flg = true;
+    socket.on('stop', function() {
+        flg = true;
     });
 });
 

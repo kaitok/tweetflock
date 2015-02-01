@@ -9,10 +9,14 @@
 
       $('#stop').click(function() {
           socket.emit('stop');
+          return false;
       });
 
-      //request取得
-      socket.on('data', function(data) {
+      //response取得
+      socket.on('data', function(data, flg) {
+          if (flg) {
+              return;
+          }
           if (data !== null && data.geo != undefined && data.geo['coordinates'] !== null) {
               var geo = data.geo['coordinates'];
               var latitude = geo[0]; //緯度
@@ -69,12 +73,12 @@
       marker.setMap(map);
 
       var contentTweet = {};
-      contentTweet.body = '<div class="media tweet_window"><div class="media-left  media-middle"><a href="http://twitter.com/' + data.user['screen_name'] + '" target="_blank"><img class="media-object" src="' + data.user['profile_image_url'] + '" target="_blank"></a></div><div class="media-body"><p class="media-heading">' + data.text + '</p></div></div>';
+      contentTweet.body = '<div class="media tweet_window"><div class="media-body"><a href="http://twitter.com/' + data.user['screen_name'] + '" target="_blank"><img class="media-object" src="' + data.user['profile_image_url'] + '" target="_blank"></a><p class="media-heading">' + data.text + '</p></div></div>';
 
       $('#tweet_box').prepend(contentTweet.body);
 
-      $('.tweet_window')[0].onclick =  function () {
-        google.maps.event.trigger(marker, 'click');
+      $('.tweet_window')[0].onclick = function() {
+          google.maps.event.trigger(marker, 'click');
       };
 
       google.maps.event.addListener(marker, 'click', function() {
