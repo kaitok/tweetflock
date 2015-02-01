@@ -7,6 +7,10 @@
           return false;
       });
 
+      $('#stop').click(function() {
+          socket.emit('stop');
+      });
+
       //request取得
       socket.on('data', function(data) {
           if (data !== null && data.geo != undefined && data.geo['coordinates'] !== null) {
@@ -69,9 +73,9 @@
 
       $('#tweet_box').prepend(contentTweet.body);
 
-      $('.tweet_window').click(function() {
-          google.maps.event.trigger(marker, 'click');
-      });
+      $('.tweet_window')[0].onclick =  function () {
+        google.maps.event.trigger(marker, 'click');
+      };
 
       google.maps.event.addListener(marker, 'click', function() {
           if (map.zoom <= 18) {
