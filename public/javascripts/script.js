@@ -1,6 +1,7 @@
   $(function() {
 
       var socket = io.connect();
+      var map;
 
       $('form').submit(function() {
           socket.emit('msg', $('input').val());
@@ -12,54 +13,48 @@
           return false;
       });
 
-      //response取得
-      socket.on('data', function(data, flg) {
-          if (flg) {
-              return;
-          }
+      socket.on('data', function(data) {
           if (data !== null && data.geo != undefined && data.geo['coordinates'] !== null) {
               var geo = data.geo['coordinates'];
               var latitude = geo[0]; //緯度
               var longitude = geo[1]; //経度
-              setMapping(latitude, longitude, data);
+              setMapping(latitude, longitude, data, map);
           }
       });
 
-      //位置情報の取得
+      //Map生成
       navigator.geolocation.getCurrentPosition(function(pos) {
-          createMap(pos.coords.latitude, pos.coords.longitude, 5);
+          map = createMap(pos.coords.latitude, pos.coords.longitude, 5);
       }, function(err) {
-          createMap('24.37', '160.76', 2);
+          map = createMap('24.37', '160.76', 2);
       });
-
-
-      //mapの設定
-      function createMap(latitude, longitude, zoom) {
-          var myLatlng = new google.maps.LatLng(latitude, longitude);
-          var myOptions = {
-              zoom: zoom,
-              center: myLatlng,
-              zoomControl: false,
-              streetViewControlOptions: {
-                  position: google.maps.ControlPosition.LEFT_BOTTOM
-              },
-              scaleControl: true,
-              mapTypeControl: true,
-              mapTypeControlOptions: {
-                  style: google.maps.MapTypeControlStyle.DEFAULT,
-                  position: google.maps.ControlPosition.BOTTOM_LEFT
-              },
-              mapTypeId: google.maps.MapTypeId.HYBRID
-          };
-          var canvas = $('#map_canvas')[0];
-          map = new google.maps.Map(canvas, myOptions);
-      }
 
   });
 
-  var map;
 
-  function setMapping(latitude, longitude, data) {
+  //mapの設定
+  function createMap(latitude, longitude, zoom) {
+      var myLatlng = new google.maps.LatLng(latitude, longitude);
+      var myOptions = {
+          zoom: zoom,
+          center: myLatlng,
+          zoomControl: false,
+          streetViewControlOptions: {
+              position: google.maps.ControlPosition.LEFT_BOTTOM
+          },
+          scaleControl: true,
+          mapTypeControl: true,
+          mapTypeControlOptions: {
+              style: google.maps.MapTypeControlStyle.DEFAULT,
+              position: google.maps.ControlPosition.BOTTOM_LEFT
+          },
+          mapTypeId: google.maps.MapTypeId.HYBRID
+      };
+      var canvas = $('#map_canvas')[0];
+      return new google.maps.Map(canvas, myOptions);
+  }
+
+  function setMapping(latitude, longitude, data, map) {
 
       var myLatlng = new google.maps.LatLng(latitude, longitude); //経度,緯度
       var marker = new google.maps.Marker({
@@ -70,7 +65,9 @@
       marker.setMap(map);
 
       var contentTweet = {};
-      contentTweet.body = '<div class="media tweet_window"><div class="media-body"><a href="http://twitter.com/' + data.user['screen_name'] + '" target="_blank"><img class="media-object" src="' + data.user['profile_image_url'] + '" target="_blank"></a><p class="media-heading">' + data.text + '</p></div></div>';
+      //contentTweet.body = '<div class="media tweet_window"><div class="media-body"><a href="http://twitter.com/' + data.user['screen_name'] + '" target="_blank"><img class="media-object" src="' + data.user['profile_image_url'] + '" target="_blank"></a><span class="media-heading">' + data.text + '<span></div></div>';
+      contentTweet.body = '<div class="media tweet_window"><div class="media-left"><a href="http://twitter.com/' + data.user['screen_name'] + '" target="_blank"><img class="img-rounded media-object" src="' + data.user['profile_image_url'] + '" target="_blank"></a><span class="media-body">' + data.text + '<span></div></div>';
+
 
       $('#tweet_box').prepend(contentTweet.body);
 
@@ -79,10 +76,12 @@
           disableAutoPan: false
       });
 
+      //tweet要素にMarkerのクリックイベントを紐付け
       $('.tweet_window')[0].onclick = function() {
           google.maps.event.trigger(marker, 'sidebarclick');
       };
 
+      //sidebarクリックイベント
       google.maps.event.addListener(marker, 'sidebarclick', function() {
 
           if (isInfoWindowOpen(infowindow)) {
@@ -101,6 +100,7 @@
           }
       });
 
+      //Markerクリックイベント
       google.maps.event.addListener(marker, 'click', function() {
 
           if (isInfoWindowOpen(infowindow)) {
@@ -115,4 +115,11 @@
           }
       });
 
+      
+      google.maps.event.addListener(marker, 'mouseover', function() {
+          infowindow.open(map, marker);
+      });
+      google.maps.event.addListener(marker, 'mouseout', function() {
+          infowindow.close(map);
+      });
   }

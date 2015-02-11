@@ -18,8 +18,8 @@ a {
 }
 #tweet_box {
     height: 88%;
-    width: 30%;
-    padding-left: 15px;
+    width: 35%;
+    padding: 0 5px 0 15px;
     overflow: scroll;
     color: black;
     position: absolute;
@@ -32,16 +32,20 @@ a {
 }
 .tweet_window {
     color: #333;
-    width: 300px;
+    width: 100%;
+    padding-top:30px;
 }
 .tweet_window p {
     font-size: 12px;
     font-family: sans-serif, 'arial';
 }
-#tweet_box .tweet_window p {
+#tweet_box .tweet_window {
     font-size: 12px;
     font-family: sans-serif, 'arial';
 }
 #tweet_box .media-object {
     display: inline;
+}
+#tweet_box .media-heading {
+    margin-left: 10px;
 }

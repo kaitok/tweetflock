@@ -83,23 +83,26 @@ var server = app.listen(3000, function() {
 });
 
 var util = require('util');
-var twitter = require('twitter');
+var twitter = require('twit');
 var twit = new twitter(require('./init.config').getKeys());
 var fs = require('fs');
 var io = require('socket.io').listen(server);
-var flg = false;
 
 io.sockets.on('connection', function(socket) {
 
     var stream;
+    var sampleStream;
+    var filterStream;
+    var keyword;
 
-    socket.on('msg', function(data) {
+    socket.on('msg', function(keyword) {
 
-        if(flg){
-            flg = false;
-            return;
+        if (!keyword) {
+            if (checkSubmit(sampleStream)) return;
+        } else {
+            if (checkSubmit(filterStream)) return;
         }
-        var keyword = data;
+
         var image_url = "";
         var option = {
             'track': keyword
@@ -112,26 +115,48 @@ io.sockets.on('connection', function(socket) {
         }
 
         var stream = function(stream) {
-            stream.on('data', function(data) {
-                console.log(data);
-                if (flg) return;
-                io.sockets.emit('data', data, flg);
-
-            });
+            console.log(stream);
+            io.sockets.emit('data', stream);
         };
 
         if (!keyword) {
-            twit.stream('statuses/sample', stream);
+            sampleStream = twit.stream('statuses/sample');
+            sampleStream.on('tweet', stream);
+            sampleStream.flg = true;
         } else {
-            twit.stream('statuses/filter', option, stream);
+            filterStream = twit.stream('statuses/filter', option);
+            filterStream.on('tweet', stream);
+            filterStream.flg = true;
         }
-
-        flg = false;
     });
+
+    function checkSubmit(streamObj) {
+        if (typeof streamObj !== "undefined" && streamObj.flg) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     socket.on('stop', function() {
-        flg = true;
+        serverStop();
     });
+
+    socket.on('disconnect', function() {
+        serverStop();
+    });
+
+    function serverStop() {
+        stopObject(sampleStream);
+        stopObject(filterStream);
+    }
+
+    function stopObject(obj) {
+        if (typeof obj !== "undefined") {
+            obj.stop();
+            obj.flg = false;
+        }
+    }
 });
 
 
