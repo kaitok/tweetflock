@@ -147,11 +147,11 @@ io.sockets.on('connection', function(socket) {
     });
 
     function serverStop() {
-        stopObject(sampleStream);
-        stopObject(filterStream);
+        stopStream(sampleStream);
+        stopStream(filterStream);
     }
 
-    function stopObject(obj) {
+    function stopStream(obj) {
         if (typeof obj !== "undefined") {
             obj.stop();
             obj.flg = false;
