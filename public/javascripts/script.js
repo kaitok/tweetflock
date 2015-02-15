@@ -65,9 +65,7 @@
       marker.setMap(map);
 
       var contentTweet = {};
-      //contentTweet.body = '<div class="media tweet_window"><div class="media-body"><a href="http://twitter.com/' + data.user['screen_name'] + '" target="_blank"><img class="media-object" src="' + data.user['profile_image_url'] + '" target="_blank"></a><span class="media-heading">' + data.text + '<span></div></div>';
-      contentTweet.body = '<div class="media tweet_window"><div class="media-left"><a href="http://twitter.com/' + data.user['screen_name'] + '" target="_blank"><img class="img-rounded media-object" src="' + data.user['profile_image_url'] + '" target="_blank"></a><span class="media-body">' + data.text + '<span></div></div>';
-
+      contentTweet.body = '<div class="media tweet_window"><a href="http://twitter.com/' + data.user['screen_name'] + '" class="pull-left" target="_blank"><img class="img-rounded media-object" src="' + data.user['profile_image_url'] + '" target="_blank"></a><div class="media-body">' + data.text + '</div></div>';
 
       $('#tweet_box').prepend(contentTweet.body);
 
@@ -81,7 +79,7 @@
           google.maps.event.trigger(marker, 'sidebarclick');
       };
 
-      //sidebarクリックイベント
+      //Sidebarクリックイベント
       google.maps.event.addListener(marker, 'sidebarclick', function() {
 
           if (isInfoWindowOpen(infowindow)) {
@@ -99,27 +97,27 @@
               return (map !== null && typeof map !== "undefined");
           }
       });
-
       //Markerクリックイベント
       google.maps.event.addListener(marker, 'click', function() {
 
-          if (isInfoWindowOpen(infowindow)) {
+          if (typeof marker.windowOpen !== "undefined" && marker.windowOpen) {
               infowindow.close(map, marker);
+              marker.windowOpen = false;
           } else {
               infowindow.open(map, marker);
+              marker.windowOpen = true;
           }
 
-          function isInfoWindowOpen(infoWindow) {
-              var map = infoWindow.getMap();
-              return (map !== null && typeof map !== "undefined");
-          }
       });
-
-      
+      //mouseoverイベント
       google.maps.event.addListener(marker, 'mouseover', function() {
           infowindow.open(map, marker);
       });
+      //mouseoutイベント
       google.maps.event.addListener(marker, 'mouseout', function() {
+          if (typeof marker.windowOpen !== "undefined" && marker.windowOpen) return;
           infowindow.close(map);
+          marker.windowOpen = false;
       });
+
   }

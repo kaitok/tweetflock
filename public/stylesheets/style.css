@@ -29,11 +29,13 @@ a {
 }
 #tweet_box .tweet_window {
     color: #FFFFFF;
+    padding-top: 20px;
+    width: 100%;
 }
 .tweet_window {
+    padding: 5px;
     color: #333;
-    width: 100%;
-    padding-top:30px;
+    width: 200px;
 }
 .tweet_window p {
     font-size: 12px;
@@ -48,4 +50,7 @@ a {
 }
 #tweet_box .media-heading {
     margin-left: 10px;
+}
+#tweet_box .media-body {
+    padding-left: 10px;
 }
