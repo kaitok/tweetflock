@@ -1,4 +1,4 @@
-tweetflock
+TWEET FLOCK
 ==============
 
 node.js + socket.io + Twitter Streaming API
