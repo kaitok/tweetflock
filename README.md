@@ -1,7 +1,7 @@
 TWEET FLOCK
 ==============
 
-node.js + socket.io + Twitter Streaming API
+Node.js + socket.io + Twitter Streaming API
 
 Create Twitter Apps https://apps.twitter.com
 
