@@ -32,7 +32,7 @@
   });
 
 
-  //mapの設定
+  //Mapの設定
   function createMap(latitude, longitude, zoom) {
       var myLatlng = new google.maps.LatLng(latitude, longitude);
       var myOptions = {
@@ -42,7 +42,15 @@
           streetViewControlOptions: {
               position: google.maps.ControlPosition.LEFT_BOTTOM
           },
+          zoomControl: true,
+          zoomControlOptions: {
+              style: google.maps.ZoomControlStyle.LARGE,
+              position: google.maps.ControlPosition.LEFT_CENTER
+          },
           scaleControl: true,
+          scaleControlOptions: {
+              position: google.maps.ControlPosition.BOTTOM_LEFT
+          },
           mapTypeControl: true,
           mapTypeControlOptions: {
               style: google.maps.MapTypeControlStyle.DEFAULT,
@@ -85,8 +93,8 @@
           if (isInfoWindowOpen(infowindow)) {
               infowindow.close(map, marker);
           } else {
-              if (map.zoom <= 18) {
-                  map.setZoom(18);
+              if (map.zoom <= 10) {
+                  map.setZoom(10);
                   map.setCenter(marker.getPosition());
               }
               infowindow.open(map, marker);
