@@ -1,9 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var sockets = require('./sockets');
 
-/* GET home page. */
-router.get('/', function(req, res) {
-  res.render('index', { title: 'Express' });
-});
+router.use('/', sockets);
 
 module.exports = router;
