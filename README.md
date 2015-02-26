@@ -15,8 +15,8 @@ Create Twitter Apps https://apps.twitter.com
 
 Install package
 
-    % npm install
+    $ npm install
 
 Start the server and browse <http://localhost:3000/> to check it's working
 
-    % node app
+    $ node app
