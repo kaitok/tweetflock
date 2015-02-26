@@ -126,15 +126,14 @@
           }
 
       });
-      //mouseover
+      //Mouseover
       google.maps.event.addListener(marker, 'mouseover', function() {
           infowindow.open(map, marker);
       });
-      //mouseout
+      //Mouseout
       google.maps.event.addListener(marker, 'mouseout', function() {
           if (typeof marker.windowOpen !== "undefined" && marker.windowOpen) return;
           infowindow.close(map);
           marker.windowOpen = false;
       });
-
   }
