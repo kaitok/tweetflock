@@ -54,7 +54,7 @@
           mapTypeControl: true,
           mapTypeControlOptions: {
               style: google.maps.MapTypeControlStyle.DEFAULT,
-              position: google.maps.ControlPosition.BOTTOM_LEFT
+              position: google.maps.ControlPosition.TOP_LEFT
           },
           mapTypeId: google.maps.MapTypeId.HYBRID
       };
