@@ -96,7 +96,7 @@
           google.maps.event.trigger(marker, 'sidebarclick');
       };
 
-      //Sidebarクリックイベント
+      //Click Sidebar
       google.maps.event.addListener(marker, 'sidebarclick', function() {
 
           if (isInfoWindowOpen(infowindow)) {
@@ -114,7 +114,7 @@
               return (map !== null && typeof map !== "undefined");
           }
       });
-      //Markerクリックイベント
+      //Click Marker
       google.maps.event.addListener(marker, 'click', function() {
 
           if (typeof marker.windowOpen !== "undefined" && marker.windowOpen) {
@@ -126,11 +126,11 @@
           }
 
       });
-      //mouseoverイベント
+      //mouseover
       google.maps.event.addListener(marker, 'mouseover', function() {
           infowindow.open(map, marker);
       });
-      //mouseoutイベント
+      //mouseout
       google.maps.event.addListener(marker, 'mouseout', function() {
           if (typeof marker.windowOpen !== "undefined" && marker.windowOpen) return;
           infowindow.close(map);
