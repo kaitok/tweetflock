@@ -73,8 +73,17 @@
       marker.setMap(map);
 
       var contentTweet = {};
-      contentTweet.body = '<div class="media tweet_window"><a href="http://twitter.com/' + data.user['screen_name'] + '" class="pull-left" target="_blank"><img class="img-rounded media-object" src="' + data.user['profile_image_url'] + '" target="_blank"></a><div class="media-body">' + data.text + '</div></div>';
-
+      var aTaggedText = data.text.replace(/https?:\/\/\S+/g,function(match) {
+          return '<a href="'+ match +'" target="_blank">'+ match +'</a>';
+      });
+      contentTweet.body = '<div class="media tweet_window">' +
+                             '<a href="http://twitter.com/' + data.user['screen_name'] + '" class="pull-left" target="_blank">' +
+                               '<img class="img-rounded media-object" src="' + data.user['profile_image_url'] + '" target="_blank">' +
+                             '</a>' +
+                             '<div class="media-body">' +
+                                aTaggedText +
+                             '</div>'+
+                          '</div>';
       $('#tweet_box').prepend(contentTweet.body);
 
       var infowindow = new google.maps.InfoWindow({
