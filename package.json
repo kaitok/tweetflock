@@ -19,6 +19,7 @@
     "transformers": "*",
     "twit": "^1.1.19",
     "twitter": "~1.0.1",
-    "twitter-bootstrap-3.0.0": "*"
+    "twitter-bootstrap-3.0.0": "*",
+    "mongoose": "*"
   }
 }
